@@ -28,7 +28,14 @@ public class DbRelationsApplication {
 //            findEmployee(employeeDAO);
 //            updateEmployee(employeeDAO);
 //            deleteEmployee(employeeDAO);
+//            getEmployeeDetails(employeeDAO);
         };
+    }
+
+    private void getEmployeeDetails(EmployeeDAO employeeDAO) {
+        EmployeeDetails employeeDetails = employeeDAO.findEmployeeDetails(1);
+        System.out.println(employeeDetails);
+        System.out.println(employeeDetails.getEmployee());
     }
 
     private void deleteEmployee(EmployeeDAO employeeDAO) {

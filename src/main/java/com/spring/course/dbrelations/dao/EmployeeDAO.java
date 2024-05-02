@@ -1,6 +1,7 @@
 package com.spring.course.dbrelations.dao;
 
 import com.spring.course.dbrelations.entity.Employee;
+import com.spring.course.dbrelations.entity.EmployeeDetails;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface EmployeeDAO {
     Employee updateEmployee(Employee employee);
 
     void deleteEmployee(Integer id);
+
+    EmployeeDetails findEmployeeDetails(Integer id);
 }

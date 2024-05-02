@@ -1,6 +1,7 @@
 package com.spring.course.dbrelations.dao;
 
 import com.spring.course.dbrelations.entity.Employee;
+import com.spring.course.dbrelations.entity.EmployeeDetails;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -44,5 +45,10 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     public void deleteEmployee(Integer id) {
         Employee employee = this.entityManager.find(Employee.class, id);
         entityManager.remove(employee);
+    }
+
+    @Override
+    public EmployeeDetails findEmployeeDetails(Integer id) {
+        return entityManager.find(EmployeeDetails.class, id);
     }
 }

@@ -3,6 +3,7 @@ package com.spring.course.dbrelations.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+@ToString(exclude = {"employee"})
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
@@ -23,5 +24,8 @@ public class EmployeeDetails {
     @NonNull
     @Column(name="role")
     private String role;
+
+    @OneToOne(mappedBy = "employeeDetails",cascade = CascadeType.ALL)
+    private Employee employee;
 
 }
