@@ -17,4 +17,6 @@ public interface EmployeeDAO {
     void deleteEmployee(Integer id);
 
     EmployeeDetails findEmployeeDetails(Integer id);
+
+    Employee getEmployeeWithProjects(Integer id);
 }

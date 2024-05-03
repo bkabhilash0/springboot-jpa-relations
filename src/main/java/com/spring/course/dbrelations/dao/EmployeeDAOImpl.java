@@ -3,6 +3,7 @@ package com.spring.course.dbrelations.dao;
 import com.spring.course.dbrelations.entity.Employee;
 import com.spring.course.dbrelations.entity.EmployeeDetails;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-public class EmployeeDAOImpl implements EmployeeDAO{
+public class EmployeeDAOImpl implements EmployeeDAO {
     private final EntityManager entityManager;
 
     @Autowired
@@ -20,7 +21,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
     @Override
     public List<Employee> findAll() {
-        return this.entityManager.createQuery("FROM Employee",Employee.class).getResultList();
+        return this.entityManager.createQuery("FROM Employee", Employee.class).getResultList();
     }
 
     @Transactional
@@ -50,5 +51,16 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     @Override
     public EmployeeDetails findEmployeeDetails(Integer id) {
         return entityManager.find(EmployeeDetails.class, id);
+    }
+
+    @Override
+    public Employee getEmployeeWithProjects(Integer id) {
+        TypedQuery<Employee> query = entityManager.createQuery("SELECT e FROM Employee e " +
+                "JOIN FETCH e.projects " +
+                "JOIN FETCH e.employeeDetails " +
+                "WHERE e.id = :id",
+                Employee.class);
+        query.setParameter("id", id);
+        return query.getSingleResult();
     }
 }

@@ -2,8 +2,10 @@ package com.spring.course.dbrelations;
 
 import com.spring.course.dbrelations.dao.EmployeeDAO;
 import com.spring.course.dbrelations.dao.EmployeeDAOImpl;
+import com.spring.course.dbrelations.dao.ProjectDAO;
 import com.spring.course.dbrelations.entity.Employee;
 import com.spring.course.dbrelations.entity.EmployeeDetails;
+import com.spring.course.dbrelations.entity.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -20,16 +22,41 @@ public class DbRelationsApplication {
     }
 
     @Bean
-    public CommandLineRunner commandLineRunner(EmployeeDAO employeeDAO) {
+    public CommandLineRunner commandLineRunner(EmployeeDAO employeeDAO, ProjectDAO projectDAO) {
         return runner -> {
             System.out.println("Hello World");
-            getAllEmployees(employeeDAO);
+//            getAllEmployees(employeeDAO);
 //            createEmployee(employeeDAO);
 //            findEmployee(employeeDAO);
 //            updateEmployee(employeeDAO);
 //            deleteEmployee(employeeDAO);
 //            getEmployeeDetails(employeeDAO);
+
+//            getAllProjects(projectDAO);
+//            getProjectsOfAnEmployee(employeeDAO,projectDAO);
+            getEmployeeWithProjectsLazy(employeeDAO);
         };
+    }
+
+    private void getEmployeeWithProjectsLazy(EmployeeDAO employeeDAO) {
+        Employee employee = employeeDAO.getEmployeeWithProjects(1);
+        System.out.println(employee);
+        System.out.println(employee.getEmployeeDetails());
+        employee.getProjects().forEach(System.out::println);
+    }
+
+    private void getProjectsOfAnEmployee(EmployeeDAO employeeDAO,ProjectDAO projectDAO) {
+        Employee employee = employeeDAO.findById(1);
+        System.out.println(employee);
+        List<Project> projects = projectDAO.getProjectsByEmployeeId(employee.getId());
+        employee.setProjects(projects);
+        employee.getProjects().forEach(System.out::println);
+    }
+
+    private void getAllProjects(ProjectDAO projectDAO) {
+        List<Project> projects = projectDAO.getAllProjects();
+        projects.forEach(System.out::println);
+//        System.out.println(projects);
     }
 
     private void getEmployeeDetails(EmployeeDAO employeeDAO) {

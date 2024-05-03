@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Data
-@ToString()
+@ToString(exclude = {"employee"})
 public class Project {
     @Id
     @Column(name = "id")

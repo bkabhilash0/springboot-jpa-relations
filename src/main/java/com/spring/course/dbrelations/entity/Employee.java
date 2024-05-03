@@ -3,6 +3,7 @@ package com.spring.course.dbrelations.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -35,6 +36,18 @@ public class Employee {
     @JoinColumn(name = "employee_details_id")
     private EmployeeDetails employeeDetails;
 
-    @OneToMany(mappedBy = "employee", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+//    By Default Lazy Loaded
+    @OneToMany(mappedBy = "employee",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<Project> projects;
+
+    public void add(Project newProject) {
+        if (this.projects == null) {
+            this.projects = new ArrayList<>();
+        }
+
+        this.projects.add(newProject);
+        newProject.setEmployee(this);
+    }
 }
