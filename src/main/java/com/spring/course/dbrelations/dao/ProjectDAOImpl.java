@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,5 +29,11 @@ public class ProjectDAOImpl implements ProjectDAO{
         TypedQuery<Project> query = entityManager.createQuery("from Project where employee.id=:data",Project.class);
         query.setParameter("data", id);
         return query.getResultList();
+    }
+
+    @Transactional
+    @Override
+    public void save(Project project) {
+        this.entityManager.merge(project);
     }
 }

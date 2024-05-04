@@ -6,6 +6,7 @@ import com.spring.course.dbrelations.dao.ProjectDAO;
 import com.spring.course.dbrelations.entity.Employee;
 import com.spring.course.dbrelations.entity.EmployeeDetails;
 import com.spring.course.dbrelations.entity.Project;
+import com.spring.course.dbrelations.entity.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -34,8 +35,27 @@ public class DbRelationsApplication {
 
 //            getAllProjects(projectDAO);
 //            getProjectsOfAnEmployee(employeeDAO,projectDAO);
-            getEmployeeWithProjectsLazy(employeeDAO);
+//            getEmployeeWithProjectsLazy(employeeDAO);
+
+            createProjectReview(projectDAO,employeeDAO);
         };
+    }
+
+    private void createProjectReview(ProjectDAO projectDAO,EmployeeDAO employeeDAO) {
+        Project project = new Project("Hospital Project",10);
+        project.setId(0);
+
+        Employee employee = employeeDAO.getEmployeeWithProjects(1);
+        employee.add(project);
+
+        Review r1 = new Review("Sample Review 1");
+        Review r2 = new Review("Sample Review 2");
+
+        project.addReview(r1);
+        project.addReview(r2);
+        System.out.println("Saving Project and Reviews to the Database");
+        projectDAO.save(project);
+        System.out.println("Project saved");
     }
 
     private void getEmployeeWithProjectsLazy(EmployeeDAO employeeDAO) {
